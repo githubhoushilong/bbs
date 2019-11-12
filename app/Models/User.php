@@ -16,8 +16,9 @@ class User extends Authenticatable implements MustVerifyEmailContract
      *
      * @var array
      */
+    //定义用户可以修改的模型数据
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password', 'introduction',
     ];
 
     /**
