@@ -19,15 +19,18 @@ class UsersController extends Controller
     }
 
     //处理用户编辑个人资料提交的信息
-    public function update(UserRequest $request,ImageUploadHandler $uploader,User $user){
+    public function update(UserRequest $request, ImageUploadHandler $uploader, User $user)
+    {
         $data = $request->all();
+
         if ($request->avatar) {
-            $result = $uploader->save($request->avatar,'avatars',$user->id);
+            $result = $uploader->save($request->avatar, 'avatars', $user->id);
             if ($result) {
-                $data['avatar'] = $request['path'];
+                $data['avatar'] = $result['path'];
             }
         }
+
         $user->update($data);
-        return redirect()->route('users.show',$user->id)->with('success','个人资料更新成功！');
+        return redirect()->route('users.show', $user->id)->with('success', '个人资料更新成功！');
     }
 }
