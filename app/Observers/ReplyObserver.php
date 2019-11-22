@@ -14,8 +14,9 @@ class ReplyObserver
     {
         //当Elequont模型数据成功创建时，created方法将会被调用
         // $reply->topic->increment('reply_count', 1);
-        $reply->topic->reply_count = $reply->topic->replies->count();
-        $reply->topic->save();
+        // $reply->topic->reply_count = $reply->topic->replies->count();
+        // $reply->topic->save();
+        $reply->topic->updateReplyCount();
 
         //通知话题作者有新的评论
         $reply->topic->user->notify(new TopicReplied($reply));
@@ -29,5 +30,11 @@ class ReplyObserver
     public function updating(Reply $reply)
     {
         //
+    }
+
+    public function deleted(Reply $reply){
+        // $reply->topic->reply_count = $reply->topic->replies->count();
+        $reply->topic->updateReplyCount();
+        $reply->topic->save();
     }
 }
